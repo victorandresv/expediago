@@ -1,6 +1,6 @@
-package models
+package expediago
 
-type ErrorModel struct {
+type ModelError struct {
 	Type    string `json:"type,omitempty"`
 	Message string `json:"message,omitempty"`
 	Fields  []struct {

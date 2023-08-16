@@ -3,27 +3,26 @@ package expediago
 import (
 	"encoding/json"
 	"github.com/google/go-querystring/query"
-	"github.com/victorandresv/expediago/models"
 )
 
 const expediaEndpointPropertiesAvailability = "/v3/properties/availability"
 
-func GetPropertyAvailability(params models.PropertyAvailabilityRequestModel) (interface{}, []byte, *models.ErrorModel) {
+func GetPropertyAvailability(params ExpediaGoModelRequestAvailability) (interface{}, []byte, *ExpediaGoModelError) {
 	urlParams, err := query.Values(params)
 	if err != nil {
-		return nil, nil, &models.ErrorModel{
+		return nil, nil, &ExpediaGoModelError{
 			Message: err.Error(),
 		}
 	}
-	result, statusCode := ApiRequest(expediaEndpointPropertiesAvailability+"?"+urlParams.Encode(), "GET", nil)
+	result, statusCode := ExpediaGoApiRequest(expediaEndpointPropertiesAvailability+"?"+urlParams.Encode(), "GET", nil)
 
 	if statusCode == 200 {
 		return result, result, nil
 	} else {
-		var data *models.ErrorModel
+		var data *ExpediaGoModelError
 		err = json.Unmarshal(result, &data)
 		if err != nil {
-			return nil, nil, &models.ErrorModel{
+			return nil, nil, &ExpediaGoModelError{
 				Message: err.Error(),
 			}
 		}
