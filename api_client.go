@@ -11,7 +11,7 @@ import (
 	"time"
 )
 
-func ApiRequest(endpoint string, method string, data interface{}) ([]byte, int) {
+func ExpediaGoApiRequest(endpoint string, method string, data interface{}) ([]byte, int) {
 
 	url := GetApiBaseUrl() + endpoint
 
@@ -27,7 +27,7 @@ func ApiRequest(endpoint string, method string, data interface{}) ([]byte, int) 
 	}
 	if err != nil {
 		fmt.Println(err.Error())
-		return ApiRequest(url, method, data)
+		return ExpediaGoApiRequest(url, method, data)
 	}
 	req.Header.Add("Authorization", generateAuthorizationHeader())
 	req.Header.Add("Customer-Ip", "127.0.0.1")
@@ -38,7 +38,7 @@ func ApiRequest(endpoint string, method string, data interface{}) ([]byte, int) 
 	res, err := client.Do(req)
 	if err != nil {
 		fmt.Println(err.Error())
-		return ApiRequest(url, method, data)
+		return ExpediaGoApiRequest(url, method, data)
 	}
 	defer func(Body io.ReadCloser) {
 		err := Body.Close()
@@ -62,7 +62,7 @@ func ApiRequest(endpoint string, method string, data interface{}) ([]byte, int) 
 	body, err := io.ReadAll(reader)
 	if err != nil {
 		fmt.Println(err.Error())
-		return ApiRequest(url, method, data)
+		return ExpediaGoApiRequest(url, method, data)
 	}
 
 	return body, res.StatusCode

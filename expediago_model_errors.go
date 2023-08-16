@@ -1,6 +1,6 @@
 package expediago
 
-type ModelError struct {
+type ExpediaGoModelError struct {
 	Type    string `json:"type,omitempty"`
 	Message string `json:"message,omitempty"`
 	Fields  []struct {

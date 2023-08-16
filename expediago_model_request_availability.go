@@ -1,6 +1,6 @@
-package models
+package expediago
 
-type PropertyAvailabilityRequestModel struct {
+type ExpediaGoModelRequestAvailability struct {
 	Checkin            string `url:"checkin"`
 	Checkout           string `url:"checkout"`
 	Currency           string `url:"currency"`
