@@ -7,7 +7,7 @@ import (
 
 const expediaEndpointPropertiesAvailability = "/v3/properties/availability"
 
-func GetPropertyAvailability(params ExpediaGoModelRequestAvailability) (interface{}, []byte, error) {
+func GetPropertyAvailability(params ExpediaGoModelRequestAvailability) ([]*ExpediaGoModelResponseAvailability, []byte, error) {
 	urlParams, err := query.Values(params)
 	if err != nil {
 		return nil, nil, ExpediaGoErrorToString(&ExpediaGoModelError{
@@ -17,7 +17,12 @@ func GetPropertyAvailability(params ExpediaGoModelRequestAvailability) (interfac
 	result, statusCode := ExpediaGoApiRequest(expediaEndpointPropertiesAvailability+"?"+urlParams.Encode(), "GET", nil)
 
 	if statusCode == 200 {
-		return result, result, nil
+		var parsed []*ExpediaGoModelResponseAvailability
+		err := json.Unmarshal(result, &parsed)
+		if err != nil {
+			return nil, nil, err
+		}
+		return parsed, result, nil
 	} else {
 		var data *ExpediaGoModelError
 		err = json.Unmarshal(result, &data)
